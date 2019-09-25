@@ -1,7 +1,6 @@
 workflow "Test and deploy" {
   on = "push"
   resolves = [
-    "Lint Json",
     "Deploy to Heroku",
   ]
 }
