@@ -5,7 +5,7 @@
       This project is a demonstration of a CI/CD pipeline with GitHub Actions. 
       Hosted on <a href="https://heroku.com">Heroku</a>
     </p>
-    <p>If you would like to get more information about this project make sure to check out the links below</p>
+    <p>If youh would like to get more information about this project make sure to check out the links below</p>
     <a href="https://medium.freecodecamp.org/a-first-look-at-github-actions-with-heroku-a6b4239d556">A first look at GitHub Actions with Heroku</a>
 
     <h2>Contributorsasa</h2>
