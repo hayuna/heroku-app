@@ -1,5 +1,5 @@
 {
-  "name": "tryGithubActions",
+  "name": "app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,7 +8,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lint-input": "node src/test/linter.js"
+    "lint-input": "node src/test/linter.js",
+    "stylelint": "(cd ./client && npm run stylelint)"
   },
   "dependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
