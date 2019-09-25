@@ -8,7 +8,7 @@
     <p>If you would like to get more information about this project make sure to check out the links below</p>
     <a href="https://medium.freecodecamp.org/a-first-look-at-github-actions-with-heroku-a6b4239d556">A first look at GitHub Actions with Heroku</a>
 
-    <h2>Contributors</h2>
+    <h2>Contributorsasa</h2>
     <a href="https://github.com/pedsm/tryGithubActions">Join the list</a>
     <div id="userContainer"> 
       <user v-for="user in users" :key="user" :username="user"/>
