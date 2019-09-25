@@ -1,7 +1,13 @@
-# ignore all files by default
-*
-# include required files with an exception
-!entrypoint.sh
-!LICENSE
-!README.md
-!THIRD_PARTY_NOTICE.md
+node_modules
+npm-debug.log
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+.env
+*/bin
+*/obj
+README.md
+LICENSE
+.vscode
