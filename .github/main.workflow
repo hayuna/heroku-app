@@ -11,27 +11,33 @@ action "Install dependencies" {
   args = "install"
 }
 
-action "Lint Vue" {
+action "ESlint" {
   uses = "actions/npm@master"
   needs = ["Install dependencies"]
   args = "run lint"
 }
 
-action "Lint Json" {
+action "Stylelint" {
   uses = "actions/npm@master"
   needs = ["Install dependencies"]
-  args = "run lint-input"
+  args = "run stylelint"
 }
 
-action "Build Vue app" {
-  uses = "actions/npm@3c8332795d5443adc712d30fa147db61fd520b5a"
-  needs = ["Lint Vue", "Lint Json"]
+action "Test" {
+  uses = "actions/npm@master"
+  needs = ["Install dependencies"]
+  args = "run test"
+}
+
+action "Build app" {
+  uses = "actions/npm@master"
+  needs = ["ESlint", "Stylelint", "Test"]
   args = "run build"
 }
 
 action "Login to Heroku" {
   uses = "actions/heroku@master"
-  needs = ["Build Vue app"]
+  needs = ["Build app"]
   args = "container:login"
   secrets = ["HEROKU_API_KEY"]
 }
