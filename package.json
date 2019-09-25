@@ -1,0 +1,14 @@
+{
+  "name": "rando",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && yarn && yarn run build"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "password-generator": "^2.2.0"
+  }
+}
