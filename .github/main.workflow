@@ -1,7 +1,6 @@
 workflow "Test and deploy" {
   on = "push"
   resolves = [
-    "Lint Json",
     "Deploy to Heroku",
   ]
 }
@@ -11,11 +10,11 @@ action "Install dependencies" {
   args = "install"
 }
 
-action "ESlint" {
-  uses = "actions/npm@master"
-  needs = ["Install dependencies"]
-  args = "run lint"
-}
+#action "ESlint" {
+#  uses = "actions/npm@master"
+#  needs = ["Install dependencies"]
+#  args = "run lint"
+#}
 
 action "Stylelint" {
   uses = "actions/npm@master"
@@ -23,15 +22,15 @@ action "Stylelint" {
   args = "run stylelint"
 }
 
-action "Test" {
-  uses = "actions/npm@master"
-  needs = ["Install dependencies"]
-  args = "run test"
-}
+#action "Test" {
+#  uses = "actions/npm@master"
+#  needs = ["Install dependencies"]
+#  args = "run test"
+#}
 
 action "Build app" {
   uses = "actions/npm@master"
-  needs = ["ESlint", "Stylelint", "Test"]
+  needs = ["Stylelint"]
   args = "run build"
 }
 
