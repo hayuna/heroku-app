@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    test
+    test2
     <img v-if="userInfo != null" :src="this.userInfo.avatar_url" width="100"/>
     <p>{{username}}</p>
   </div>
