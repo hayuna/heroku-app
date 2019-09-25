@@ -1,49 +1,51 @@
-workflow "Build and Publish" {
+workflow "Test and deploy" {
   on = "push"
-  resolves = "Docker Publish"
+  resolves = [
+    "Lint Json",
+    "Deploy to Heroku",
+  ]
 }
 
-action "Shell Lint" {
-  uses = "actions/bin/shellcheck@master"
-  args = "entrypoint.sh"
+action "Install dependencies" {
+  uses = "actions/npm@3c8332795d5443adc712d30fa147db61fd520b5a"
+  args = "install"
 }
 
-action "Test" {
-  uses = "actions/bin/bats@master"
-  args = "test/*.bats"
+action "Lint Vue" {
+  uses = "actions/npm@3c8332795d5443adc712d30fa147db61fd520b5a"
+  needs = ["Install dependencies"]
+  args = "run lint"
 }
 
-action "Docker Lint" {
-  uses = "docker://replicated/dockerfilelint"
-  args = ["Dockerfile"]
+action "Lint Json" {
+  uses = "actions/npm@3c8332795d5443adc712d30fa147db61fd520b5a"
+  needs = ["Install dependencies"]
+  args = "run lint-input"
 }
 
-action "Build" {
-  needs = ["Shell Lint", "Test", "Docker Lint"]
-  uses = "actions/docker/cli@master"
-  args = "build -t heroku ."
+action "Build Vue app" {
+  uses = "actions/npm@3c8332795d5443adc712d30fa147db61fd520b5a"
+  needs = ["Lint Vue", "Lint Json"]
+  args = "run build"
 }
 
-action "Docker Tag" {
-  needs = ["Build"]
-  uses = "actions/docker/tag@master"
-  args = "heroku github/heroku --no-latest"
+action "Login to Heroku" {
+  uses = "actions/heroku@9b6266f8ca2b26bc846af2547b2b11ad8a696223"
+  needs = ["Build Vue app"]
+  args = "container:login"
+  secrets = ["HEROKU_API_KEY"]
 }
 
-action "Publish Filter" {
-  needs = ["Build"]
-  uses = "actions/bin/filter@master"
-  args = "branch master"
+action "Push to Heroku" {
+  uses = "actions/heroku@9b6266f8ca2b26bc846af2547b2b11ad8a696223"
+  needs = ["Login to Heroku"]
+  args = "container:push -a try-github-action web"
+  secrets = ["HEROKU_API_KEY"]
 }
 
-action "Docker Login" {
-  needs = ["Publish Filter"]
-  uses = "actions/docker/login@master"
-  secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
-}
-
-action "Docker Publish" {
-  needs = ["Docker Tag", "Docker Login"]
-  uses = "actions/docker/cli@master"
-  args = "push github/heroku"
+action "Deploy to Heroku" {
+  uses = "actions/heroku@9b6266f8ca2b26bc846af2547b2b11ad8a696223"
+  needs = ["Push to Heroku"]
+  secrets = ["HEROKU_API_KEY"]
+  args = "container:release -a try-github-action web"
 }
